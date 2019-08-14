@@ -4,9 +4,9 @@
     <div class="col">
       <h2 class="section-title">User details</h2>
       <form [formGroup]="userDetailsForm" (ngSubmit)="onSubmitUserDetails(userDetailsForm.value)">
-        <mat-form-field class="full-width">
+<!--        <mat-form-field class="full-width">-->
           <input matInput placeholder="premium" formControlName="premium" required>
-        </mat-form-field>
+<!--        </mat-form-field>-->
         <button class="submit-btn" color="primary" mat-raised-button type="submit" [disabled]="!userDetailsForm.valid">
           Submit
         </button>

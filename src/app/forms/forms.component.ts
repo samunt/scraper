@@ -44,7 +44,7 @@ export class FormsComponent implements OnInit {
          console.log('response body', response);
     }, (err) => {
          kinetixResp = err.error.text;
-         kinetixResp = kinetixResp.match(findDollar);
+         kinetixResp = kinetixResp.match(findDollar).endsWith('/');
          console.log('DOLLAR VAL', kinetixResp);
     });
 

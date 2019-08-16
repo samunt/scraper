@@ -44,7 +44,7 @@ export class FormsComponent implements OnInit {
       (response) => {
          console.log('response body', response);
     }, (err) => {
-         console.log('ERROR',err);
+         console.log('ERROR TEXT',err.text);
     });
 
   }

@@ -12,9 +12,6 @@ import {Observable} from 'rxjs';
 export class FormsComponent implements OnInit {
 
   public userDetailsForm: FormGroup;
-  private resp: Object;
-
-
   constructor(private fb: FormBuilder, public httpClient: HttpClient) {}
 
   public ngOnInit() {
@@ -40,7 +37,7 @@ export class FormsComponent implements OnInit {
       }),
       mode: "cors",
     };
-    console.log('built666');
+    console.log('built777');
     post = this.httpClient.post(destinationUrl, httpBody, httpOptions);
     post.subscribe(
       (response) => {

@@ -34,7 +34,7 @@ export class FormsComponent implements OnInit {
     const destinationUrl = 'https://partners.kanetix.ca/life-insurance';
     const httpOptions = {
       headers: new HttpHeaders({
-        contentType: 'text',
+        contentType: 'text/html',
       }),
     };
     console.log('built444');

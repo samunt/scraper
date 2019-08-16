@@ -39,7 +39,7 @@ export class FormsComponent implements OnInit {
       }),
       mode: "cors",
     };
-    console.log('built5');
+    console.log('built666');
     post = this.httpClient.post(destinationUrl, httpBody, httpOptions);
     post.subscribe(
       (response) => {

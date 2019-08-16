@@ -36,6 +36,7 @@ export class FormsComponent implements OnInit {
       headers: new HttpHeaders({
         contentType: 'text/html',
       }),
+      mode: "cors",
     };
     console.log('built5');
     post = this.httpClient.post(destinationUrl, httpBody, httpOptions);

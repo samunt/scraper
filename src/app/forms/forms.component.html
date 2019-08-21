@@ -3,7 +3,7 @@
 
     <div class="col">
       <h2 class="section-title">User details</h2>
-      <form [formGroup]="userDetailsForm" (ngSubmit)="onSubmitUserDetails(userDetailsForm.value)">
+      <form [formGroup]="userDetailsForm" (ngSubmit)="winQuoteFunction(userDetailsForm.value)">
           <input matInput placeholder="premium" formControlName="premium" required>
         <button class="submit-btn" color="primary" mat-raised-button type="submit" [disabled]="!userDetailsForm.valid">
           Submit

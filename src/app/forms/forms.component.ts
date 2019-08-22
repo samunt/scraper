@@ -33,6 +33,20 @@ export class FormsComponent implements OnInit {
     alert(val);
   }
 
+  public chunkArray(myArray, chunk_size){
+    let index = 0;
+    let arrayLength = myArray.length;
+    let tempArray = [];
+
+    for (index = 0; index < arrayLength; index += chunk_size) {
+      let myChunk = myArray.slice(index, index + chunk_size);
+      // Do something if you want with the group
+      tempArray.push(myChunk);
+    }
+
+    return tempArray;
+  }
+
   public winQuoteFunction(value) {
     let post: Observable<any>;
     const destinationUrl = 'https://www.winquote.net/compete.pl';
@@ -49,35 +63,58 @@ export class FormsComponent implements OnInit {
     post = this.httpClient.post(destinationUrl, constructedBody, httpOptions);
     post.subscribe(
       (response) => {
-        console.log('WINQUOTEresp', response);
+        return;
       }, (error) => {
-        console.log('WINQUOTEerr', error);
         const root = parse(error.error.text, {normalizeWhitespace: true, withStartIndices: true});
         const table = root[1].children[2].children[7].children[1].children[1].children[9].children[4].children[3].children[1].children;
-        console.log('table', table);
-        const tableCellValues = [];
-        const temp2 = [];
+        let tableDataDollarValue = [];
+        let finalArrayForDisplay = [];
+        let tableDataWithoutDollarValue = [];
         // go into table
         table.forEach((el) => {
           // go into row
           if (el.name === 'tr') {
             el.children.forEach((elChildren) => {
-              // go into cell
+              if (elChildren.children !== undefined) {
+                  // push other values into an array we will later merge with dollar value array
+                  tableDataWithoutDollarValue.push(elChildren.children[0].data);
+              }
+              // go into <td>, which is generated to hold the dollar value of the quote
               if (elChildren.name === 'td') {
                 elChildren.children.forEach((deepChild) => {
                   if (deepChild.children !== undefined) {
-                    temp2.push(deepChild);
-                    // does cell have a string in in the html
+                    // does cell have a string in in the html which will have a dollar value
                     elChildren = deepChild.children[0].type === 'text' ? deepChild.children[0].data : undefined;
-                    tableCellValues.push(elChildren);
+                    tableDataDollarValue.push(elChildren);
                   }
                 });
               }
             });
           }
         });
-        console.log('cell array', tableCellValues);
-        console.log('temp', temp2);
+        // remove the non-relevant data from start of the array
+        tableDataDollarValue.forEach((val, index, object) => {
+          if (!val.match('\\$\\d+(?:(\\d+))?')) {
+            object.splice(index, 1);
+          }
+        });
+        // remove the irrelevant pieces of the non dollar table values
+        tableDataWithoutDollarValue.splice(0, 7);
+        // remove undefined values
+        const filteredTableArray = tableDataWithoutDollarValue.filter((val) => {
+          return val !== undefined;
+        });
+        // remove empty strings and other useless things
+        let filteredTableArray2 = filteredTableArray.filter((val) => {
+          return val.length > 2;
+        });
+        // chunk the rows of non dollar values together
+        filteredTableArray2 = this.chunkArray(filteredTableArray2, 3);
+        // chunk the individual rows of dollar values together
+        tableDataDollarValue = this.chunkArray(tableDataDollarValue, 2);
+        // merge chunked data from 2 arrays together
+        finalArrayForDisplay = tableDataDollarValue.map((e, i) => e + filteredTableArray2[i]);
+        console.log('final array', finalArrayForDisplay);
       },
     );
   }

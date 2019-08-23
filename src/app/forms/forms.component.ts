@@ -34,16 +34,13 @@ export class FormsComponent implements OnInit {
   }
 
   public chunkArray(myArray, chunk_size){
-    let index = 0;
     let arrayLength = myArray.length;
     let tempArray = [];
-
-    for (index = 0; index < arrayLength; index += chunk_size) {
+    for (let index = 0; index < arrayLength; index += chunk_size) {
       let myChunk = myArray.slice(index, index + chunk_size);
       // Do something if you want with the group
       tempArray.push(myChunk);
     }
-
     return tempArray;
   }
 
@@ -113,7 +110,7 @@ export class FormsComponent implements OnInit {
         // chunk the individual rows of dollar values together
         tableDataDollarValue = this.chunkArray(tableDataDollarValue, 2);
         // merge chunked data from 2 arrays together
-        finalArrayForDisplay = tableDataDollarValue.map((e, i) => e + filteredTableArray2[i]);
+        finalArrayForDisplay = tableDataDollarValue.map((e, i) => e.concat(filteredTableArray2[i]));
         console.log('final array', finalArrayForDisplay);
       },
     );

@@ -224,9 +224,9 @@ export class FormsComponent implements OnInit {
     ];
     // user details form validations
     this.userDetailsForm = this.fb.group({
-        birthDay: new FormControl('01', [Validators.required]),
-        birthMonth: new FormControl('01', [Validators.required]),
-        birthYear: new FormControl('1980', [Validators.required]),
+        birthDay: new FormControl("01", [Validators.required]),
+        birthMonth: new FormControl("01", [Validators.required]),
+        birthYear: new FormControl("1980", [Validators.required]),
         coverageType: new FormControl(coverageTypeTable[0].val, [Validators.required]),
         gender: new FormControl("Male", [Validators.required]),
         premium: new FormControl(250000, [Validators.required]),
@@ -299,7 +299,7 @@ export class FormsComponent implements OnInit {
      const provinceUrl = "Province=" + province + "&";
      const premiumUrl = "First+Client+Premium=" + premium + "&";
      const constructedBody = monthUrl + dayUrl + yearUrl + genderUrl + tobaccoUrl + smokerCigaretteUrl + smokerCigarUrl + smokerPipeUrl + smokerSnuffUrl + smokerCigarelloUrl + smokerChewUrl + smokerMarijuanaUrl + prescriptionMarijuanaUrl + provinceUrl + premiumUrl;
-     
+
      const httpOptions = {
       headers: new HttpHeaders({
         contentType: "text/html",

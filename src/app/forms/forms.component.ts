@@ -14,6 +14,101 @@ import {Observable} from "rxjs";
 export class FormsComponent implements OnInit {
 
   public userDetailsForm: FormGroup;
+  public coverageTypeTable = [
+    {
+      type: "1 Year Term",
+      val: "00",
+    },
+    {
+      type: "10 Year Term",
+      val: "02",
+    },
+    {
+      type: "15 Year Term",
+      val: "03",
+    },
+    {
+      type: "20 Year Term",
+      val: "04",
+    },
+    {
+      type: "25 Year Term",
+      val: "05",
+    },
+    {
+      type: "30 Year Term",
+      val: "06",
+    },
+    {
+      type: "35 Year Term",
+      val: "07",
+    },
+    {
+      type: "40 Year Term",
+      val: "08",
+    },
+    {
+      type: "Level term to 65",
+      val: "09",
+    },
+    {
+      type: "Level term to 70",
+      val: "010",
+    },
+    {
+      type: "Unique Term",
+      val: "012",
+    },
+    {
+      type: "OptiTerm",
+      val: "1",
+    },
+    {
+      type: "Traditional Term 100",
+      val: "20",
+    },
+    {
+      type: "T100 20 Pay",
+      val: "21",
+    },
+    {
+      type: "Unique Term 100",
+      val: "22",
+    },
+    {
+      type: "Whole life/ life pay",
+      val: "30",
+    },
+    {
+      type: "Whole life/ life pay to 65",
+      val: "31",
+    },
+    {
+      type: "Whole life/ 25 pay",
+      val: "32",
+    },
+    {
+      type: "Whole life/ 20 pay",
+      val: "33",
+    },
+    {
+      type: "Whole life/ 15 pay",
+      val: "34",
+    },
+    {
+      type: "Unique Whole Life",
+      val: "39",
+    },
+    {
+      type: "Living Benefits",
+      val: "5",
+    },
+    {
+      type: "Single person funeral plan",
+      val: "80",
+    },
+  ];
+
   constructor(private fb: FormBuilder, public httpClient: HttpClient) {}
 
   public ngOnInit() {
@@ -21,100 +116,6 @@ export class FormsComponent implements OnInit {
   }
 
   public createForms() {
-    const coverageTypeTable = [
-      {
-        type: "1 Year Term",
-        val: "00",
-      },
-      {
-        type: "10 Year Term",
-        val: "02",
-      },
-      {
-        type: "15 Year Term",
-        val: "03",
-      },
-      {
-        type: "20 Year Term",
-        val: "04",
-      },
-      {
-        type: "25 Year Term",
-        val: "05",
-      },
-      {
-        type: "30 Year Term",
-        val: "06",
-      },
-      {
-        type: "35 Year Term",
-        val: "07",
-      },
-      {
-        type: "40 Year Term",
-        val: "08",
-      },
-      {
-        type: "Level term to 65",
-        val: "09",
-      },
-      {
-        type: "Level term to 70",
-        val: "010",
-      },
-      {
-        type: "Unique Term",
-        val: "012",
-      },
-      {
-        type: "OptiTerm",
-        val: "1",
-      },
-      {
-        type: "Traditional Term 100",
-        val: "20",
-      },
-      {
-        type: "T100 20 Pay",
-        val: "21",
-      },
-      {
-        type: "Unique Term 100",
-        val: "22",
-      },
-      {
-        type: "Whole life/ life pay",
-        val: "30",
-      },
-      {
-        type: "Whole life/ life pay to 65",
-        val: "31",
-      },
-      {
-        type: "Whole life/ 25 pay",
-        val: "32",
-      },
-      {
-        type: "Whole life/ 20 pay",
-        val: "33",
-      },
-      {
-        type: "Whole life/ 15 pay",
-        val: "34",
-      },
-      {
-        type: "Unique Whole Life",
-        val: "39",
-      },
-      {
-        type: "Living Benefits",
-        val: "5",
-      },
-      {
-        type: "Single person funeral plan",
-        val: "80",
-      },
-    ];
     const provinceTable = [
       {
         province: "Albert",
@@ -170,12 +171,12 @@ export class FormsComponent implements OnInit {
       },
     ];
     const countriesTable = [];
-    const smokerTypeTable = [
-      {
-        type:  ,
-        value:  ,
-      },
-    ];
+    // const smokerTypeTable = [
+    //   {
+    //     type:  ,
+    //     value:  ,
+    //   },
+    // ];
     const smokerLevelTable = [
       {
         frequency: "Never",
@@ -227,7 +228,7 @@ export class FormsComponent implements OnInit {
         birthDay: new FormControl("01", [Validators.required]),
         birthMonth: new FormControl("01", [Validators.required]),
         birthYear: new FormControl("1980", [Validators.required]),
-        coverageType: new FormControl(coverageTypeTable[0].val, [Validators.required]),
+        coverageType: new FormControl(this.coverageTypeTable[0].val, [Validators.required]),
         gender: new FormControl("Male", [Validators.required]),
         premium: new FormControl(250000, [Validators.required]),
         smokerChew: new FormControl(false, []),
@@ -238,7 +239,7 @@ export class FormsComponent implements OnInit {
         smokerSnuff: new FormControl(false, []),
         marijuana: new FormControl(false, []),
         prescriptionMarijuana: new FormControl(false, []),
-        province: new FormControl(provinceTable[12].province, [Validators.required]), // Ontario is 13
+        province: new FormControl(provinceTable[12].value, [Validators.required]), // Ontario is 13
         tobaccoUse: new FormControl(false, [Validators.required]),
 
     });
@@ -297,8 +298,10 @@ export class FormsComponent implements OnInit {
      const smokerMarijuanaUrl =  "fp_smoker_marijuana=" + marijuana + "&";
      const prescriptionMarijuanaUrl = "fp_smoker_prescribe=" + prescriptionMarijuana + "&";
      const provinceUrl = "Province=" + province + "&";
-     const premiumUrl = "First+Client+Premium=" + premium + "&";
-     const constructedBody = monthUrl + dayUrl + yearUrl + genderUrl + tobaccoUrl + smokerCigaretteUrl + smokerCigarUrl + smokerPipeUrl + smokerSnuffUrl + smokerCigarelloUrl + smokerChewUrl + smokerMarijuanaUrl + prescriptionMarijuanaUrl + provinceUrl + premiumUrl;
+     const premiumUrl = "First+Client+Premium=" + premium + "&Payment+Mode=0&";
+     const coverageTypeUrl = "First+Client+Coverage+Type=" + coverageType + "&";
+     const endOfUrl = "First+Client+Plan+Type+OT=0&First+Client+Plan+Type+LB=0&First+Client+Risk=1&type=single&co_code=ca1122573208&co_name=WinQuote&report_type=rank&version_code=ca%3Ase%3A1.3&lang_code=en";
+     const constructedBody = monthUrl + dayUrl + yearUrl + genderUrl + tobaccoUrl + smokerCigaretteUrl + smokerCigarUrl + smokerPipeUrl + smokerSnuffUrl + smokerCigarelloUrl + smokerChewUrl + smokerMarijuanaUrl + prescriptionMarijuanaUrl + provinceUrl + premiumUrl + coverageTypeUrl + endOfUrl;
 
      const httpOptions = {
       headers: new HttpHeaders({
@@ -314,7 +317,7 @@ export class FormsComponent implements OnInit {
         const root = parse(error.error.text, {normalizeWhitespace: true, withStartIndices: true});
         const table = root[1].children[2].children[7].children[1].children[1].children[9].children[4].children[3].children[1].children;
         let tableDataDollarValue = [];
-        let finalArrayForDisplay = [];
+        let finalArrayForDisplay: any[];
         const tableDataWithoutDollarValue = [];
         // go into table
         table.forEach((el) => {

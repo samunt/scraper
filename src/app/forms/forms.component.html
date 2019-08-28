@@ -5,6 +5,16 @@
       <h2 class="section-title">User details</h2>
       <form [formGroup]="userDetailsForm" (ngSubmit)="winQuoteFunction(userDetailsForm.value)">
           <input matInput placeholder="premium" formControlName="premium" required>
+          <input matInput placeholder="Birth Day" formControlName="birthDay" required>
+          <input matInput placeholder="Birth Month" formControlName="birthMonth" required>
+          <input matInput placeholder="Birth Year" formControlName="birthYear" required>
+        <label>
+          <select multiple formControlName="coverageType">
+            <option value="">Coverage Type</option>
+            <option *ngFor="let coverage of coverageTypeTable" [ngValue]="coverage.val">{{coverage.type}}
+            </option>
+          </select>
+        </label>
         <button class="submit-btn" color="primary" mat-raised-button type="submit" [disabled]="!userDetailsForm.valid">
           Submit
         </button>

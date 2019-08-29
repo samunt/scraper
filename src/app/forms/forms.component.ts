@@ -1,10 +1,24 @@
 // tslint:disable-next-line:import-spacing
-import {HttpClient, HttpHeaders} from "@angular/common/http";
-import { Component, OnInit, ViewEncapsulation } from "@angular/core";
-import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
+import {
+  HttpClient,
+  HttpHeaders
+} from "@angular/common/http";
+import {
+  Component,
+  OnInit,
+  ViewEncapsulation
+} from "@angular/core";
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators
+} from "@angular/forms";
 // import { parse } from 'node-html-parser';
 import parse from "html-dom-parser";
-import {Observable} from "rxjs";
+import {
+  Observable
+} from "rxjs";
 @Component({
   selector: "app-forms-page",
   templateUrl: "./forms.component.html",
@@ -14,6 +28,63 @@ import {Observable} from "rxjs";
 export class FormsComponent implements OnInit {
 
   public userDetailsForm: FormGroup;
+  public switch: boolean = false;
+  public finalArrayForDisplay: any[];
+  public tobaccoUse: string = "N";
+  public provinceTable = [
+    {
+      province: "Albert",
+      value: "0",
+    },
+    {
+      province: "Saskatchewan",
+      value: "1",
+    },
+    {
+      province: "NWT",
+      value: "3",
+    },
+    {
+      province: "Yukon",
+      value: "4",
+    },
+    {
+      province: "Nunavit",
+      value: "5",
+    },
+    {
+      province: "Manitoba",
+      value: "6",
+    },
+    {
+      province: "Ontario",
+      value: "7",
+    },
+    {
+      province: "Quebec",
+      value: "8",
+    },
+    {
+      province: "NS",
+      value: "9",
+    },
+    {
+      province: "NB",
+      value: "10",
+    },
+    {
+      province: "PEI",
+      value: "11",
+    },
+    {
+      province: "Newfoundland",
+      value: "12",
+    },
+    {
+      province: "All Provinces",
+      value: "13",
+    },
+  ];
   public coverageTypeTable = [
     {
       type: "1 Year Term",
@@ -108,141 +179,112 @@ export class FormsComponent implements OnInit {
       val: "80",
     },
   ];
-
-  constructor(private fb: FormBuilder, public httpClient: HttpClient) {}
+  public smokerLevelTable = [
+    {
+      frequency: "Never",
+      value: "100",
+    },
+    {
+      frequency: "within 12 months",
+      value: "0",
+    },
+    {
+      frequency: "More than 1 years ago",
+      value: "1",
+    },
+    {
+      frequency: "More than 2 years ago",
+      value: "2",
+    },
+    {
+      frequency: "More than 3 years ago",
+      value: "3",
+    },
+    {
+      frequency: "More than 4 years ago",
+      value: "5",
+    },
+    {
+      frequency: "More than 5 years ago",
+      value: "5",
+    },
+    {
+      frequency: "More than 6 years ago",
+      value: "6",
+    },
+    {
+      frequency: "More than 10 years ago",
+      value: "10",
+    },
+    {
+      frequency: "More than 15 years ago",
+      value: "15",
+    },
+    {
+      frequency: "More than 25 years ago",
+      value: "25",
+    },
+  ];
+  public underwritingRisk = [
+    {
+      risk: "Elite",
+      value: 1,
+    },
+    {
+      risk: "Preferred",
+      value: 2,
+    },
+    {
+      risk: "Regular",
+      value: 8,
+    },
+    {
+      risk: "Simplified",
+      value: 16,
+    },
+    {
+      risk: "Guaranteed",
+      value: 32,
+    },
+  ];
+  constructor(private fb: FormBuilder,
+              public httpClient: HttpClient) {}
 
   public ngOnInit() {
     this.createForms();
   }
 
   public createForms() {
-    const provinceTable = [
-      {
-        province: "Albert",
-        value: "0",
-      },
-      {
-        province: "Saskatchewan",
-        value: "1",
-      },
-      {
-        province: "NWT",
-        value: "3",
-      },
-      {
-        province: "Yukon",
-        value: "4",
-      },
-      {
-        province: "Nunavit",
-        value: "5",
-      },
-      {
-        province: "Manitoba",
-        value: "6",
-      },
-      {
-        province: "Ontario",
-        value: "7",
-      },
-      {
-        province: "Quebec",
-        value: "8",
-      },
-      {
-        province: "NS",
-        value: "9",
-      },
-      {
-        province: "NB",
-        value: "10",
-      },
-      {
-        province: "PEI",
-        value: "11",
-      },
-      {
-        province: "Newfoundland",
-        value: "12",
-      },
-      {
-        province: "All Provinces",
-        value: "13",
-      },
-    ];
-    const countriesTable = [];
-    // const smokerTypeTable = [
-    //   {
-    //     type:  ,
-    //     value:  ,
-    //   },
-    // ];
-    const smokerLevelTable = [
-      {
-        frequency: "Never",
-        value: "100",
-      },
-      {
-        frequency: "within 12 months",
-        value: "0",
-      },
-      {
-        frequency: "More than 1 years ago",
-        value: "1",
-      },
-      {
-        frequency: "More than 2 years ago",
-        value: "2",
-      },
-      {
-        frequency: "More than 3 years ago",
-        value: "3",
-      },
-      {
-        frequency: "More than 4 years ago",
-        value: "5",
-      },
-      {
-        frequency: "More than 5 years ago",
-        value: "5",
-      },
-      {
-        frequency: "More than 6 years ago",
-        value: "6",
-      },
-      {
-        frequency: "More than 10 years ago",
-        value: "10",
-      },
-      {
-        frequency: "More than 15 years ago",
-        value: "15",
-      },
-      {
-        frequency: "More than 25 years ago",
-        value: "25",
-      },
-    ];
     // user details form validations
     this.userDetailsForm = this.fb.group({
-        birthDay: new FormControl("01", [Validators.required]),
-        birthMonth: new FormControl("01", [Validators.required]),
-        birthYear: new FormControl("1980", [Validators.required]),
-        coverageType: new FormControl(this.coverageTypeTable[0].val, [Validators.required]),
-        gender: new FormControl("Male", [Validators.required]),
-        premium: new FormControl(250000, [Validators.required]),
-        smokerChew: new FormControl(false, []),
-        smokerCigar: new FormControl(false, []),
-        smokerCigarette: new FormControl(false, []),
-        smokerCigarillo: new FormControl(false, []),
-        smokerPipe: new FormControl(false, []),
-        smokerSnuff: new FormControl(false, []),
-        marijuana: new FormControl(false, []),
-        prescriptionMarijuana: new FormControl(false, []),
-        province: new FormControl(provinceTable[12].value, [Validators.required]), // Ontario is 13
-        tobaccoUse: new FormControl(false, [Validators.required]),
-
+      birthDay: new FormControl("01", [Validators.required]),
+      birthMonth: new FormControl("01", [Validators.required]),
+      birthYear: new FormControl("1980", [Validators.required]),
+      coverageType: new FormControl(this.coverageTypeTable[0].val, [Validators.required]),
+      gender: new FormControl("Male", [Validators.required]),
+      premium: new FormControl(250000, [Validators.required]),
+      smoker: new FormControl("N", [Validators.required]),
+      smokerChew: new FormControl("100", []),
+      smokerCigar: new FormControl("100", []),
+      smokerCigarette: new FormControl("100", []),
+      smokerCigarillo: new FormControl("100", []),
+      smokerPipe: new FormControl("100", []),
+      smokerSnuff: new FormControl("100", []),
+      marijuana: new FormControl("100", []),
+      prescriptionMarijuana: new FormControl("100", []),
+      province: new FormControl(this.provinceTable[12].value, [Validators.required]), // Ontario is 13
+      tobaccoUse: new FormControl("N", [Validators.required]),
+      underwritingRisk: new FormControl("1", [Validators.required]),
     });
+  }
+
+  public tobaccoUseFunc($event: Event) {
+    // @ts-ignore
+    this.tobaccoUse = $event.target.value;
+  }
+
+  public switchSurveyForTable() {
+    this.switch = !this.switch;
   }
 
   public findMoney(value) {
@@ -251,11 +293,11 @@ export class FormsComponent implements OnInit {
     alert(val);
   }
 
-  public chunkArray(myArray, chunk_size) {
+  public chunkArray(myArray, chunkSize) {
     const arrayLength = myArray.length;
     const tempArray = [];
-    for (let index = 0; index < arrayLength; index += chunk_size) {
-      const myChunk = myArray.slice(index, index + chunk_size);
+    for (let index = 0; index < arrayLength; index += chunkSize) {
+      const myChunk = myArray.slice(index, index + chunkSize);
       // Do something if you want with the group
       tempArray.push(myChunk);
     }
@@ -263,72 +305,79 @@ export class FormsComponent implements OnInit {
   }
 
   public winQuoteFunction(value) {
-     let post: Observable<any>;
-     const destinationUrl = "https://www.winquote.net/compete.pl";
-     const birthDay = value.birthDay;
-     const birthMonth = value.birthMonth;
-     const birthYear = value.birthYear;
-     const coverageType = value.coverageType;
-     const gender = value.gender = "Male" ? "1" : "2";
-     const premium = value.premium;
-     const smokerChew = value.smokerChew = true ? "100" : "100";
-     const smokerCigar = value.smokerCigar = true ? "100" : "100";
-     const smokerCigarello = value.smokerCigarillo = true ? "100" : "100";
-     const smokerCigarette = value.smokerCigarette = true ? "100" : "100";
-     const smokerPipe = value.smokerPipe = true ? "100" : "100";
-     const smokerSnuff = value.smokerSnuff = true ? "100" : "100";
-     const marijuana = value.marijuana = true ? "100" : "100";
-     const prescriptionMarijuana = value.prescriptionMarijuana = true ? "100" : "100";
-     const province = value.province;
-     const tobaccoUse = value.tobaccoUse = true ? "Y" : "N";
+    let post: Observable < any > ;
+    const destinationUrl = "https://www.winquote.net/compete.pl";
+    const birthDay = value.birthDay;
+    const birthMonth = value.birthMonth;
+    const birthYear = value.birthYear;
+    const coverageType = value.coverageType;
+    const gender = value.gender;
+    const premium = value.premium;
+    const smokerChew = value.smokerChew;
+    const smokerCigar = value.smokerCigar;
+    const smokerCigarello = value.smokerCigarillo;
+    const smokerCigarette = value.smokerCigarette;
+    const smokerPipe = value.smokerPipe;
+    const smokerSnuff = value.smokerSnuff;
+    const marijuana = value.marijuana;
+    const prescriptionMarijuana = value.prescriptionMarijuana;
+    const province = value.province;
+    const tobaccoUse = value.tobaccoUse;
+    const underwritingRisk = value.underwritingRisk;
 
-     const beginBody = "month=01&day=15&year=1981&First+Client+Gender=1&First+Client+Tobacco+Use=N&fp_smoker_cigarette=100&fp_smoker_cigar=100&fp_smoker_pipe=100&fp_smoker_snuff=100&fp_smoker_cigarello=100&fp_smoker_chew=100&fp_smoker_marijuana=100&fp_smoker_prescribe=100&Province=13&First+Client+Premium=";
-     const endOfBody = "&Payment+Mode=0&First+Client+Coverage+Type=04&First+Client+Plan+Type+OT=0&First+Client+Plan+Type+LB=0&First+Client+Risk=1&type=single&co_code=ca1122573208&co_name=WinQuote&report_type=rank&version_code=ca%3Ase%3A1.3&lang_code=en";
-     const monthUrl = "month=" + birthMonth + "&";
-     const dayUrl = "day=" + birthDay + "&";
-     const yearUrl = "year=" + birthYear + "&";
-     const genderUrl = "First+Client+Gender=" + gender + "&";
-     const tobaccoUrl = "First+Client+Tobacco+Use=" + tobaccoUse + "&";
-     const smokerCigaretteUrl =  "fp_smoker_cigarette=" + smokerCigarette + "&";
-     const smokerSnuffUrl = "fp_smoker_snuff=" + smokerSnuff + "&";
-     const smokerPipeUrl = "fp_smoker_snuff=" + smokerPipe + "&";
-     const smokerCigarUrl = "fp_smoker_cigar=" + smokerCigar + "&";
-     const smokerCigarelloUrl = "fp_smoker_cigarello=" + smokerCigarello + "&";
-     const smokerChewUrl = "fp_smoker_chew=" + smokerChew + "&";
-     const smokerMarijuanaUrl =  "fp_smoker_marijuana=" + marijuana + "&";
-     const prescriptionMarijuanaUrl = "fp_smoker_prescribe=" + prescriptionMarijuana + "&";
-     const provinceUrl = "Province=" + province + "&";
-     const premiumUrl = "First+Client+Premium=" + premium + "&Payment+Mode=0&";
-     const coverageTypeUrl = "First+Client+Coverage+Type=" + coverageType + "&";
-     const endOfUrl = "First+Client+Plan+Type+OT=0&First+Client+Plan+Type+LB=0&First+Client+Risk=1&type=single&co_code=ca1122573208&co_name=WinQuote&report_type=rank&version_code=ca%3Ase%3A1.3&lang_code=en";
-     const constructedBody = monthUrl + dayUrl + yearUrl + genderUrl + tobaccoUrl + smokerCigaretteUrl + smokerCigarUrl + smokerPipeUrl + smokerSnuffUrl + smokerCigarelloUrl + smokerChewUrl + smokerMarijuanaUrl + prescriptionMarijuanaUrl + provinceUrl + premiumUrl + coverageTypeUrl + endOfUrl;
+    const monthUrl = "month=" + birthMonth + "&";
+    const dayUrl = "day=" + birthDay + "&";
+    const yearUrl = "year=" + birthYear + "&";
+    const genderUrl = "First+Client+Gender=" + gender + "&";
+    const tobaccoUrl = "First+Client+Tobacco+Use=" + tobaccoUse + "&";
+    const smokerCigaretteUrl = "fp_smoker_cigarette=" + smokerCigarette + "&";
+    const smokerSnuffUrl = "fp_smoker_snuff=" + smokerSnuff + "&";
+    const smokerPipeUrl = "fp_smoker_snuff=" + smokerPipe + "&";
+    const smokerCigarUrl = "fp_smoker_cigar=" + smokerCigar + "&";
+    const smokerCigarelloUrl = "fp_smoker_cigarello=" + smokerCigarello + "&";
+    const smokerChewUrl = "fp_smoker_chew=" + smokerChew + "&";
+    const smokerMarijuanaUrl = "fp_smoker_marijuana=" + marijuana + "&";
+    const prescriptionMarijuanaUrl = "fp_smoker_prescribe=" + prescriptionMarijuana + "&";
+    const provinceUrl = "Province=" + province + "&";
+    const premiumUrl = "First+Client+Premium=" + premium + "&Payment+Mode=0&";
+    const coverageTypeUrl = "First+Client+Coverage+Type=" + coverageType + "&";
+    const underwritingRiskUrl = "First+Client+Risk=" + underwritingRisk + "&";
+    const middleOfUrl = "First+Client+Plan+Type+OT=0&First+Client+Plan+Type+LB=0&" ;
+    const endOfUrl = "type=single&co_code=ca1122573208&co_name=WinQuote&report_type=rank&version_code=ca%3Ase%3A1.3&lang_code=en";
+    const constructedBody = monthUrl + dayUrl + yearUrl + genderUrl + tobaccoUrl + smokerCigaretteUrl + smokerCigarUrl + smokerPipeUrl + smokerSnuffUrl + smokerCigarelloUrl + smokerChewUrl + smokerMarijuanaUrl + prescriptionMarijuanaUrl + provinceUrl + premiumUrl + coverageTypeUrl + middleOfUrl + underwritingRiskUrl + endOfUrl;
 
-     const httpOptions = {
+    const httpOptions = {
       headers: new HttpHeaders({
         contentType: "text/html",
       }),
       mode: "cors",
     };
-     post = this.httpClient.post(destinationUrl, constructedBody, httpOptions);
-     post.subscribe(
+    post = this.httpClient.post(destinationUrl, constructedBody, httpOptions);
+    post.subscribe(
       (response) => {
         return;
       }, (error) => {
-        const root = parse(error.error.text, {normalizeWhitespace: true, withStartIndices: true});
+        const root = parse(error.error.text, {
+          normalizeWhitespace: true,
+          withStartIndices: true
+        });
+        // this huge line is where the table exists in the parsed HTML. It's very deep
         const table = root[1].children[2].children[7].children[1].children[1].children[9].children[4].children[3].children[1].children;
         let tableDataDollarValue = [];
-        let finalArrayForDisplay: any[];
         const tableDataWithoutDollarValue = [];
         // go into table
         table.forEach((el) => {
           // go into row
           if (el.name === "tr") {
+            // iterate thru rows
             el.children.forEach((elChildren) => {
               if (elChildren.children !== undefined) {
-                  // push other values into an array we will later merge with dollar value array
-                  tableDataWithoutDollarValue.push(elChildren.children[0].data);
+                // if !== undefined it means that there is the vendor name and insurance type in the cells
+                // push values into an array we will later merge with corresponding dollar value array
+                tableDataWithoutDollarValue.push(elChildren.children[0].data);
               }
               // go into <td>, which is generated to hold the dollar value of the quote
+              // note that the <tr>s that dont have <td>s hold text that describes the vendor name
               if (elChildren.name === "td") {
                 elChildren.children.forEach((deepChild) => {
                   if (deepChild.children !== undefined) {
@@ -362,8 +411,9 @@ export class FormsComponent implements OnInit {
         // chunk the individual rows of dollar values together
         tableDataDollarValue = this.chunkArray(tableDataDollarValue, 2);
         // merge chunked data from 2 arrays together
-        finalArrayForDisplay = tableDataDollarValue.map((e, i) => e.concat(filteredTableArray2[i]));
-        console.log("final array", finalArrayForDisplay);
+        this.finalArrayForDisplay = tableDataDollarValue.map((e, i) => e.concat(filteredTableArray2[i]));
+        this.switchSurveyForTable();
+        console.log("final array", this.finalArrayForDisplay);
       },
     );
   }
@@ -397,4 +447,5 @@ export class FormsComponent implements OnInit {
   //   });
   //   this.winQuoteFunction(null);
   // }
+
 }

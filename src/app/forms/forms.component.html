@@ -1,27 +1,125 @@
-<div class="container">
+<div class="container" *ngIf="!switch">
   <div class="row">
-
     <div class="col">
-      <h2 class="section-title">User details</h2>
+      <h2 class="section-title">Canadian Quote</h2>
       <form [formGroup]="userDetailsForm" (ngSubmit)="winQuoteFunction(userDetailsForm.value)">
+        <label> Premium $
           <input matInput placeholder="premium" formControlName="premium" required>
+        </label><br>
+        <label> Birth Day (01-31)
           <input matInput placeholder="Birth Day" formControlName="birthDay" required>
+        </label><br>
+        <label> Birth Month (01-12)
           <input matInput placeholder="Birth Month" formControlName="birthMonth" required>
+        </label><br>
+        <label> Birth Year
           <input matInput placeholder="Birth Year" formControlName="birthYear" required>
-        <label>
-          <select multiple formControlName="coverageType">
+        </label><br>
+        <label> Coverage Type
+          <select formControlName="coverageType">
             <option value="">Coverage Type</option>
             <option *ngFor="let coverage of coverageTypeTable" [ngValue]="coverage.val">{{coverage.type}}
             </option>
           </select>
-        </label>
+        </label><br>
+        <label> Sex
+          <select formControlName="gender">
+            <option value="1">Male</option>
+            <option value="2">Female</option>
+          </select>
+        </label><br>
+        <label> Province
+          <select formControlName="province">
+            <option *ngFor="let province of provinceTable" [ngValue]="province.value">{{province.province}}
+            </option>
+          </select>
+        </label><br>
+        <label>Underwriting Risk
+          <select formControlName="underwritingRisk">
+            <option *ngFor="let risk of underwritingRisk" [ngValue]="risk.value">
+              {{risk.risk}}
+            </option>
+          </select>
+        </label><br>
+        <label> Smoker?
+          <select formControlName="tobaccoUse" (change)="tobaccoUseFunc($event)">
+            <option value="Y">Smoker
+            </option>
+            <option value="N">Non-Smoker</option>
+          </select>
+        </label><br>
+        <label *ngIf="tobaccoUse === 'Y' "> Chewing Tobacco
+          <select formControlName="smokerChew">
+            <option *ngFor="let level of smokerLevelTable" [ngValue]="level.value">{{level.frequency}}
+            </option>
+          </select>
+        </label><br>
+        <label *ngIf="tobaccoUse === 'Y' "> Cigars
+          <select formControlName="smokerCigar">
+            <option *ngFor="let level of smokerLevelTable" [ngValue]="level.value">{{level.frequency}}
+            </option>
+          </select>
+        </label><br>
+        <label *ngIf="tobaccoUse === 'Y' "> Cigarettes
+          <select formControlName="smokerCigarette">
+            <option *ngFor="let level of smokerLevelTable" [ngValue]="level.value">{{level.frequency}}
+            </option>
+          </select>
+        </label><br>
+        <label *ngIf="tobaccoUse === 'Y' "> Cigarello
+          <select formControlName="smokerCigarillo">
+            <option *ngFor="let level of smokerLevelTable" [ngValue]="level.value">{{level.frequency}}
+            </option>
+          </select>
+        </label><br>
+        <label *ngIf="tobaccoUse === 'Y' "> Pipe
+          <select formControlName="smokerPipe">
+            <option *ngFor="let level of smokerLevelTable" [ngValue]="level.value">{{level.frequency}}
+            </option>
+          </select>
+        </label><br>
+        <label *ngIf="tobaccoUse === 'Y' "> Snuff
+          <select formControlName="smokerSnuff">
+            <option *ngFor="let level of smokerLevelTable" [ngValue]="level.value">{{level.frequency}}
+            </option>
+          </select>
+        </label><br>
+        <label *ngIf="tobaccoUse === 'Y' "> Marijuana (Illicit)
+          <select formControlName="marijuana">
+            <option *ngFor="let level of smokerLevelTable" [ngValue]="level.value">{{level.frequency}}
+            </option>
+          </select>
+        </label><br>
+        <label *ngIf="tobaccoUse === 'Y' "> Marijuana (Prescribed)
+          <select formControlName="prescriptionMarijuana">
+            <option *ngFor="let level of smokerLevelTable" [ngValue]="level.value">{{level.frequency}}
+            </option>
+          </select>
+        </label><br>
         <button class="submit-btn" color="primary" mat-raised-button type="submit" [disabled]="!userDetailsForm.valid">
           Submit
         </button>
-
       </form>
     </div>
-
-
   </div>
 </div>
+<table *ngIf="switch">
+  <thead>
+    <tr>
+      <td>Yearly Cost</td>
+      <td>Monthly Cost</td>
+      <td>Provider</td>
+      <td>Plan</td>
+      <td>Percentage</td>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let field of finalArrayForDisplay">
+      <td>{{field[0]}}</td>
+      <td>{{field[1]}}</td>
+      <td>{{field[2]}}</td>
+      <td>{{field[3]}}</td>
+      <td>{{field[4]}}</td>
+    </tr>
+  </tbody>
+</table>
